@@ -2,7 +2,7 @@
 
 Este proyecto implementa una herramienta en C++ para calcular distribuciones de probabilidad condicionales a partir de una distribución conjunta de variables binarias. Utiliza técnicas de marginalización para inferir probabilidades $P(Y|E)$.
 
-## 📋 Información del Proyecto
+## Información del Proyecto
 
 **Asignatura:** Inteligencia Artificial Avanzada  
 **Fecha:** [05/02/2026]
@@ -13,7 +13,7 @@ Este proyecto implementa una herramienta en C++ para calcular distribuciones de 
 
 ---
 
-## 🚀 Funcionalidades
+## Funcionalidades
 
 1.  **Carga de Distribución Conjunta:**
     * **Desde CSV:** Lectura de archivos con formato `máscara,probabilidad`.
@@ -28,7 +28,7 @@ Este proyecto implementa una herramienta en C++ para calcular distribuciones de 
 
 ---
 
-## 📂 Estructura de Archivos
+## Estructura de Archivos
 
 * `main.cc`: Punto de entrada del programa. Gestiona la interacción con el usuario.
 * `DistribucionConjunta.h`: Definición de la clase y cabeceras.
@@ -37,11 +37,11 @@ Este proyecto implementa una herramienta en C++ para calcular distribuciones de 
 
 ---
 
-## 🛠️ Compilación y Ejecución
+## Compilación y Ejecución
 
 El código no requiere librerías externas, solo un compilador estándar de C++.
 
-### Compilación (Linux/Mac)
+### Compilación (Linux)
 ```bash
 make clean
 make
