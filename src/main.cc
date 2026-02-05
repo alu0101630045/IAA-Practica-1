@@ -1,19 +1,64 @@
-#include <iostream>
-
-#include "../lib/Inferencia.h"
+#include "../lib/DistribucionConjunta.h"
 
 int main() {
-  std::ifstream fichero_entrada("inputs/input1.csv");
-  if (!fichero_entrada.is_open()) {
-    std::cerr << "Error: No se pudo abrir el archivo de entrada." << std::endl;
-    return 1; 
-  }
-  Inferencia inferencia_uno(fichero_entrada);
-  
-  std::vector<double> probabilidades = inferencia_uno.get_probabilidades();
-  
-  for (int i = 0; i < probabilidades.size(); i++) {
-    std::cout << probabilidades[i]<< '\n';
-  }
-  return 0;
+    int n;
+    std::cout << ">>> Cantidad total de variables binarias: ";
+    std::cin >> n;
+
+    DistribucionConjunta dc(n);
+
+    std::cout << "Seleccione metodo de carga:\n1. Archivo CSV (distribucion.csv)\n2. Generacion Aleatoria\nOpcion: ";
+    int opcion;
+    std::cin >> opcion;
+
+    if (opcion == 1) {
+        if (!dc.cargarDesdeCSV("inputs/input1.csv")) {
+            std::cout << "No se pudo leer el archivo. Usando datos aleatorios...\n";
+            dc.generarAleatoria();
+        }
+    } else {
+        dc.generarAleatoria();
+    }
+
+    dc.imprimirArrayp(); 
+
+    int maskC = 0; // Máscara de variables condicionadas
+    int valC = 0;  // Valor de las variables condicionadas
+    int maskI = 0; // Máscara de variables de interés
+    
+    int n_condicionadas, n_interes;
+
+    std::cout << "\n=== Seleccion de Variables ===" << std::endl;
+
+    std::cout << "¿Cuantas variables estan condicionadas (E)? ";
+    std::cin >> n_condicionadas;
+
+    for (int i = 0; i < n_condicionadas; ++i) {
+        int idx, val;
+        std::cout << "  [Condicion " << i + 1 << "] Indice (1-" << n << "): ";
+        std::cin >> idx;
+        std::cout << "  [Condicion " << i + 1 << "] Valor (0 o 1): ";
+        std::cin >> val;
+        int bit_pos = idx - 1; 
+        maskC |= (1 << bit_pos); 
+        if (val == 1) {
+            valC |= (1 << bit_pos); 
+        }
+    }
+
+    std::cout << "\n¿Cuantas variables son de interes (Y)? ";
+    std::cin >> n_interes;
+
+    for (int i = 0; i < n_interes; ++i) {
+        int idx;
+        std::cout << "  [Interes " << i + 1 << "] Indice (1-" << n << "): ";
+        std::cin >> idx;
+
+        int bit_pos = idx - 1;
+        maskI |= (1 << bit_pos); 
+    }
+
+    // Por implementar (Punto 4 en adelante)
+    // dc.calcularCondicional(maskC, valC, maskI);
+    return 0;
 }
