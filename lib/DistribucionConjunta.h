@@ -5,6 +5,10 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <algorithm> 
+#include <chrono>    
+#include <cstdlib>   
+#include <iomanip>   
 
 class DistribucionConjunta {
   public:

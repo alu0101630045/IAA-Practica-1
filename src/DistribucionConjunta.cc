@@ -58,4 +58,4 @@ void DistribucionConjunta::imprimirArrayp() const {
         for (size_t i = 0; i < p.size(); ++i) {
             std::cout << "p[" << i << "] = " << p[i] << std::endl;
         }
-    }
+}

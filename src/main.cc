@@ -69,5 +69,8 @@ int main() {
     for (int i = 0; i < resultado.size(); ++i) {
         std::cout << "Indice " << i << ": " << resultado[i] << std::endl;
     }
+
+    ejecutar_simulacion(dc.get_p(), n);
+    
     return 0;
 }
