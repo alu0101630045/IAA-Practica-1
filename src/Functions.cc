@@ -51,17 +51,30 @@ std::vector<double> prob_cond_bin(const std::vector<double>& p, int N, int maskC
   return result;
 }
 
-/// @brief Ejecuta una simulación con un número de variables especificado y 
-///        número aleatorio de variables de interés y condicionadas.
-/// @param p 
-/// @param N 
+/// @brief Ejecuta una simulación de rendimiento.
+///        Genera una configuración aleatoria por cada combinación (Ni, Nc)
+///        y la ejecuta 1000 veces para obtener un tiempo promedio estable.
+/// @param p Vector de probabilidad conjunta.
+/// @param N Número total de variables.
 void ejecutar_simulacion(const std::vector<double>& p, int N) {
-  std::cout << "\n=== Iniciando Simulacion de Rendimiento (Funcion Suelta) ===\n";
-  std::cout << "N_Vars,N_Interes,N_Condicionadas,Tiempo(s)\n";
+  std::string filepath = "outputs/simulacion.csv";
+  std::ofstream archivo(filepath);
+
+  if (!archivo.is_open()) {
+    std::cerr << "Error al abrir " << filepath << std::endl;
+    return;
+  }
+
+  archivo << "N_Vars,N_Interes,N_Condicionadas,Tiempo_Promedio(s)\n";
+
+  const int REPETICIONES = 1000;
+
   std::vector<int> indices(N);
   for (int i = 0; i < N; ++i) {
     indices[i] = i;
   }
+
+  std::cout << "Iniciando simulacion (" << REPETICIONES << " reps)..." << std::endl;
 
   for (int ni = 1; ni <= N; ++ni) {
     for (int nc = 0; nc <= (N - ni); ++nc) {
@@ -69,6 +82,7 @@ void ejecutar_simulacion(const std::vector<double>& p, int N) {
         int j = std::rand() % (i + 1);
         std::swap(indices[i], indices[j]);
       }
+
       int maskI = 0;
       int maskC = 0;
       int valC = 0;
@@ -84,18 +98,28 @@ void ejecutar_simulacion(const std::vector<double>& p, int N) {
           valC |= (1 << idx);
         }
       }
-      
+
       auto start = std::chrono::high_resolution_clock::now();
-      std::vector<double> temp = prob_cond_bin(p, N, maskC, valC, maskI);
+
+      for (int r = 0; r < REPETICIONES; ++r) {
+        std::vector<double> dummy = prob_cond_bin(p, N, maskC, valC, maskI);
+      }
+
       auto end = std::chrono::high_resolution_clock::now();
-      std::chrono::duration<double> elapsed = end - start;
-      std::cout << N << "," << ni << "," << nc << "," 
-                << std::fixed << std::setprecision(6) << elapsed.count() << "\n";
+      std::chrono::duration<double> total_time = end - start;
+      double avg_time = total_time.count() / (double)REPETICIONES;
+
+      archivo << N << "," << ni << "," << nc << "," 
+              << std::fixed << std::setprecision(9) << avg_time << "\n";
     }
   }
-  std::cout << "=== Fin de Simulacion ===\n";
+
+  archivo.close();
+  std::cout << "Simulacion completada. Datos en outputs/simulacion.csv" << std::endl;
 }
 
+/// @brief Menu principal para cargar la distribución conjunta, seleccionar variables y ejecutar la simulación.
+/// @return distribucion y número de variables en un par.
 std::pair<DistribucionConjunta, int> MenuPrincipal() {
   std::pair<DistribucionConjunta, int> distribucion;
   int n;
@@ -154,10 +178,6 @@ std::pair<DistribucionConjunta, int> MenuPrincipal() {
     int bit_pos = idx - 1;
     maskI |= (1 << bit_pos); 
   }
-
-  std::cout << "MaskC: " << maskC << std::endl;
-  std::cout << "valC: " << valC << std::endl;
-  std::cout << "MaskI: " << maskI << std::endl;
 
   std::vector<double> resultado = prob_cond_bin(dc.get_p(), n, maskC, valC, maskI);
 

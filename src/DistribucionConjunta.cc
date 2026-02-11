@@ -46,16 +46,16 @@ void DistribucionConjunta::generarAleatoria() {
     static bool init = false;
     if (!init) { std::srand(std::time(NULL)); init = true; }
     for (double& val : p) val = 0.0;
-    for (int i = 0; i < 100; ++i) {
+    for (int i = 0; i < 1000; ++i) {
         int idx = std::rand() % p.size();
         p[idx] += 1.0;
     }
-    for (double& val : p) val /= 100.0;
+    for (double& val : p) val /= 1000.0;
 }
 
 /// @brief Imprime el array p para depuración
 void DistribucionConjunta::imprimirArrayp() const { 
-        for (size_t i = 0; i < p.size(); ++i) {
-            std::cout << "p[" << i << "] = " << p[i] << std::endl;
-        }
+    for (size_t i = 0; i < p.size(); ++i) {
+        std::cout << "p[" << i << "] = " << p[i] << std::endl;
+    }
 }

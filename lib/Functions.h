@@ -9,6 +9,7 @@
 #include <cstdlib>   
 #include <iomanip>
 #include <utility>
+#include <fstream>
 
 #include "DistribucionConjunta.h"
 
