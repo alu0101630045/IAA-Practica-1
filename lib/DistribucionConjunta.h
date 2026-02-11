@@ -13,6 +13,7 @@ class DistribucionConjunta {
     void generarAleatoria();
     void imprimirConfiguracion(const std::map<int, int>& config) const;
     void imprimirArrayp() const;
+    std::vector<double> get_p() { return p; }
 
   private:
     int n_vars;

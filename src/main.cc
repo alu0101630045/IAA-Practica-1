@@ -1,4 +1,5 @@
 #include "../lib/DistribucionConjunta.h"
+#include "../lib/Functions.h"
 
 int main() {
     int n;
@@ -12,7 +13,7 @@ int main() {
     std::cin >> opcion;
 
     if (opcion == 1) {
-        if (!dc.cargarDesdeCSV("inputs/input1.csv")) {
+        if (!dc.cargarDesdeCSV("inputs/input_5var.csv")) {
             std::cout << "No se pudo leer el archivo. Usando datos aleatorios...\n";
             dc.generarAleatoria();
         }
@@ -58,7 +59,15 @@ int main() {
         maskI |= (1 << bit_pos); 
     }
 
-    // Por implementar (Punto 4 en adelante)
-    // dc.calcularCondicional(maskC, valC, maskI);
+    std::cout << "MaskC: " << maskC << std::endl;
+    std::cout << "valC: " << valC << std::endl;
+    std::cout << "MaskI: " << maskI << std::endl;
+
+    std::vector<double> resultado = prob_cond_bin(dc.get_p(), n, maskC, valC, maskI);
+
+    std::cout << "\n--- Resultados ---" << std::endl;
+    for (int i = 0; i < resultado.size(); ++i) {
+        std::cout << "Indice " << i << ": " << resultado[i] << std::endl;
+    }
     return 0;
 }
