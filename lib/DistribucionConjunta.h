@@ -12,7 +12,7 @@
 
 class DistribucionConjunta {
   public:
-    DistribucionConjunta(int n);
+    DistribucionConjunta(int n = 0);
     bool cargarDesdeCSV(const std::string& filename);
     void generarAleatoria();
     void imprimirConfiguracion(const std::map<int, int>& config) const;
