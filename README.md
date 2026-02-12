@@ -48,7 +48,7 @@ make
 
 ## Uso
 
-./p01_binary <filename>
+./p01_binary filename
 
 ## Resultados
 
