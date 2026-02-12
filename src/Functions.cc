@@ -120,7 +120,7 @@ void ejecutar_simulacion(const std::vector<double>& p, int N) {
 
 /// @brief Menu principal para cargar la distribución conjunta, seleccionar variables y ejecutar la simulación.
 /// @return distribucion y número de variables en un par.
-std::pair<DistribucionConjunta, int> MenuPrincipal() {
+std::pair<DistribucionConjunta, int> MenuPrincipal(std::string fichero_entrada) {
   std::pair<DistribucionConjunta, int> distribucion;
   int n;
   std::cout << ">>> Cantidad total de variables binarias: ";
@@ -128,12 +128,12 @@ std::pair<DistribucionConjunta, int> MenuPrincipal() {
 
   DistribucionConjunta dc(n);
 
-  std::cout << "Seleccione metodo de carga:\n1. Archivo CSV (distribucion.csv)\n2. Generacion Aleatoria\nOpcion: ";
+  std::cout << "Seleccione metodo de carga:\n1. Archivo CSV\n2. Generacion Aleatoria\nOpcion: ";
   int opcion;
   std::cin >> opcion;
 
   if (opcion == 1) {
-    if (!dc.cargarDesdeCSV("inputs/input.csv")) {
+    if (!dc.cargarDesdeCSV(fichero_entrada)) {
       std::cout << "No se pudo leer el archivo. Usando datos aleatorios...\n";
       dc.generarAleatoria();
     }
