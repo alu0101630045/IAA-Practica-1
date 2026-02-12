@@ -43,7 +43,7 @@ La organización de directorios del proyecto es la siguiente:
 ```bash
 git clone https://github.com/alu0101630045/IAA-Practica-1.git
 cd IAA-Practica-1
-pip install -r requirements.txt
+make
 ```
 
 ## Uso
